@@ -21,6 +21,10 @@ from linebot.models import (
 
 app = Flask(__name__)
 db.init_app(app)
+@app.before_first_request
+    def create_tables():
+        db.create_all()
+
 
 
 #Direct the location of the database
@@ -105,13 +109,5 @@ def handle_message(event):
     new_record.save_to_database()
 
 
-if __name__ == "__main__":  
-
-    if app.config['DEBUG']:
-        #データベースを作成するための
-        @app.before_first_request
-        def create_tables():
-            db.create_all()
-    
-    app.debug = False
+if __name__ == '__main__':
     app.run()
