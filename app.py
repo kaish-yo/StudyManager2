@@ -20,7 +20,7 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
-
+db.init_app(app)
 
 
 #Direct the location of the database
@@ -105,8 +105,7 @@ def handle_message(event):
     new_record.save_to_database()
 
 
-if __name__ == "__main__":
-    db.init_app(app)
+if __name__ == "__main__":  
 
     if app.config['DEBUG']:
         #データベースを作成するための
