@@ -1,6 +1,5 @@
 #Postgres用
 import os
-import psycopg2
 
 #ライブラリをインストール
 from flask import Flask, request, abort
