@@ -21,10 +21,7 @@ from linebot.models import (
 
 app = Flask(__name__)
 
-#データベースを作成するための
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
 
 #Direct the location of the database
 ##Herokuの場合は第一引数、ローカルの場合は第二引数を参照するように設定
@@ -110,5 +107,12 @@ def handle_message(event):
 
 if __name__ == "__main__":
     db.init_app(app)
+
+    if app.config['DEBUG']:
+        #データベースを作成するための
+        @app.before_first_request
+        def create_tables():
+            db.create_all()
+    
     app.debug = False
     app.run()
