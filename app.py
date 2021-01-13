@@ -29,7 +29,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite://
 #Disable track recording in SQLAlchemy so as to work faster
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)
+#db.init_app(app)
 
 line_bot_api = LineBotApi('bCxcsrJMtZoSBkcEUKxo2meIVxL6TvfvTBPU4YU78XMOv+2DD2PoLRo7m/LBDl1OVY2Zl8U32I8rYwye1lDoj9FCTAOoppjAzLw8QFs19iqhMBftbD5zcHJwVgAv/tTZPaZSlkwbswnoZbqz2frqCgdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('2eb98ca7615b9ac2d883570595da7cab')
@@ -105,13 +105,24 @@ def handle_message(event):
     new_record.save_to_database()
 
 
-if __name__ == "__main__":  
+if __name__ == '__main__':
+    from db import db
+    db.init_app(app)
 
     if app.config['DEBUG']:
-        #データベースを作成するための
         @app.before_first_request
         def create_tables():
             db.create_all()
+
+    app.run(port=5000)
+
+# if __name__ == "__main__":  
+
+#     if app.config['DEBUG']:
+#         #データベースを作成するための
+#         @app.before_first_request
+#         def create_tables():
+#             db.create_all()
     
-    app.debug = False
-    app.run()
+#     app.debug = False
+#     app.run()
