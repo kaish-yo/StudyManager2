@@ -20,7 +20,7 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
-db.init_app(app)
+
 
 
 #Direct the location of the database
@@ -29,7 +29,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite://
 #Disable track recording in SQLAlchemy so as to work faster
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
+db.init_app(app)
 
 line_bot_api = LineBotApi('bCxcsrJMtZoSBkcEUKxo2meIVxL6TvfvTBPU4YU78XMOv+2DD2PoLRo7m/LBDl1OVY2Zl8U32I8rYwye1lDoj9FCTAOoppjAzLw8QFs19iqhMBftbD5zcHJwVgAv/tTZPaZSlkwbswnoZbqz2frqCgdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('2eb98ca7615b9ac2d883570595da7cab')
