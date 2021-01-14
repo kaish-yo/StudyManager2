@@ -5,13 +5,15 @@ class TimeModel(db.Model):
     __tablename__ = 'items'
 
     id = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.String)
     date = db.Column(db.Date)
-    recordedtime =db.Column(db.Integer)
+    recordedtime = db.Column(db.Integer)
     start_end_flag = db.Column(db.Integer)
 
     #classの定義をする
-    def __init__(self, date, recordedtime, start_end_flag):
+    def __init__(self, userId, date, recordedtime, start_end_flag):
         # self.id = id
+        self.userId = userId
         self.date = date
         self.recordedtime = recordedtime
         self.start_end_flag = start_end_flag
@@ -22,5 +24,7 @@ class TimeModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_last_data(cls):
-        return cls.query.order_by(cls.id.desc()).first()
+    def get_last_data(cls, userId):
+        return cls.query.filter_by(userId=userId).order_by(cls.id.desc()).first()
+
+    
