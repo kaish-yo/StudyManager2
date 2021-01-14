@@ -77,7 +77,7 @@ def handle_message(event):
     #データベースに保存するための変数（共通）
     date = datetime.date.today()
     recordedtime = int(time())
-    userId = event.source.user_id
+    userId = str(event.source.user_id)
 
     if response == "勉強開始":
         start_end_flag = 0
