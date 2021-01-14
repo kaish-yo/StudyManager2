@@ -20,8 +20,6 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
-db.init_app(app)
-
 
 #Direct the location of the database
 ##Herokuの場合は第一引数、ローカルの場合は第二引数を参照するように設定
@@ -29,7 +27,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite://
 #Disable track recording in SQLAlchemy so as to work faster
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
+db.init_app(app)
 
 line_bot_api = LineBotApi('bCxcsrJMtZoSBkcEUKxo2meIVxL6TvfvTBPU4YU78XMOv+2DD2PoLRo7m/LBDl1OVY2Zl8U32I8rYwye1lDoj9FCTAOoppjAzLw8QFs19iqhMBftbD5zcHJwVgAv/tTZPaZSlkwbswnoZbqz2frqCgdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('2eb98ca7615b9ac2d883570595da7cab')
@@ -103,6 +101,7 @@ def handle_message(event):
     #データベースに保存する
     new_record = TimeModel(date, recordedtime, start_end_flag)
     new_record.save_to_database()
+
 
 
 if __name__ == "__main__":  
