@@ -34,7 +34,7 @@ class StudytimeModel(db.Model):
     
     @classmethod
     def sum_of_monthly_total(cls, userId, month):    
-        recordlist = cls.query.filter_by(userId=userId).filter_by(year=datetime.date.today().year).filter_by(month=month)
+        recordlist = cls.query.filter_by(userId=userId).filter_by(year=str(datetime.date.today().year)).filter_by(month=month)
         total = 0
         for i in recordlist:
             total += i.eachtime
