@@ -8,7 +8,7 @@ class StudytimeModel(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.String)
-    date = db.Column(db.Integer)
+    date = db.Column(db.Date)
     year = db.Column(db.String)
     month = db.Column(db.String)
     eachtime = db.Column(db.Integer)
