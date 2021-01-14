@@ -34,9 +34,9 @@ db.init_app(app)
 '''
 下記はローカル用
 '''
-@app.before_first_request
-def create_tables():
-    db.create_all()
+# @app.before_first_request
+# def create_tables():
+#     db.create_all()
 '''
 Herokuにdeployする際はコメントアウト
 '''
@@ -147,11 +147,11 @@ def handle_message(event):
 
 if __name__ == "__main__":  
 
-    # if app.config['DEBUG']:
-    #     #データベースを作成するための
-    #     @app.before_first_request
-    #     def create_tables():
-    #         db.create_all()
+    if app.config['DEBUG']:
+        #データベースを作成するための
+        @app.before_first_request
+        def create_tables():
+            db.create_all()
     
     app.debug = False
     app.run()
