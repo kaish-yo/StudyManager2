@@ -104,18 +104,10 @@ def handle_message(event):
                                        eachtime=studytime)
             new_total.save_to_database_total()
 
-            # if studytime >=28800:
-            #     replying_message = "殿、ご苦労様でした！\n前回開始から勉強時間は{}...!!\n殿は生けるレジェンドですな!!!".format(studytime_in_str)
-            # elif studytime >= 18000:
-            #     replying_message = "長時間お疲れ様でした！\n前回開始から勉強時間は、なんと{}！\nお前は…本当に…すごいやつだッ…!!!".format(studytime_in_str)
-            #else:
             replying_message = "お疲れ様！\n前回開始から{}勉強しました！".format(studytime_in_str)
 
         else:
             replying_message = "Error:勉強開始時間が記録されていません。"
-            # line_bot_api.reply_message(
-            #      event.reply_token,
-            #      TextSendMessage(text=replying_message))
         
     elif response=="今日は終了":
         #今日の勉強時間を合計を返信する
@@ -129,17 +121,53 @@ def handle_message(event):
         else:
             replying_message ="今日の勉強時間は、\n{}です！お疲れ様でした！".format(totaltime_in_str)
 
-    elif "月合計を教えて" in response:
+    elif "月合計を教えて" in response :
         month = response.split('月')
         month = month[0]
-        totaltime = StudytimeModel.sum_of_monthly_total(userId=userId, month=month)
-        totaltime_in_str = time_presentaiton(totaltime)
-        replying_message = "{}月の勉強時間は、合計で\n{}です！".format(month, totaltime_in_str)    
+        if len(month) > 2:
+            pass
+        else:
+            totaltime = StudytimeModel.sum_of_monthly_total(userId=userId, month=month)
+            totaltime_in_str = time_presentaiton(totaltime)
+            replying_message = "{}月の勉強時間は、合計で\n{}です！".format(month, totaltime_in_str)    
 
     elif response == "俺のすべてを教えて":
         totaltime = StudytimeModel.sum_of_entire(userId=userId)
         totaltime_in_str = time_presentaiton(totaltime)
-        replying_message = "よかろう。汝のすべてを教えてやる。\nおぬしの総勉強時間は{}だ！".format(totaltime_in_str)    
+        replying_message = "よかろう。汝のすべてを教えてやる。\nおぬしの総勉強時間は{}だ！".format(totaltime_in_str)
+    
+    elif "時間追加" in respose:
+        studytime = response.split('時')
+        studytime = int(studytime[0])
+        if len(studytime) > 2:
+            pass
+        else:
+            studytime = studytime * 3600 #秒単位にする
+            studytime_in_str = time_presentaiton(studytime)
+
+            #save to the DB
+            new_total = StudytimeModel(userId=userId, date=date, year=date.year,
+                                        month=date.month, 
+                                        eachtime=studytime)
+            new_total.save_to_database_total()
+            
+            replying_message = "{}時間、本日の学習時間に追加しました".format(studytime_in_str)
+    elif "時間削除" in response:
+        studytime = response.split('時')[0]
+        studytime = int(studytime[0]) * -1
+        
+        if len(studytime) > 2:
+            pass
+        else:
+            studytime = studytime * 3600
+            studytime_in_str = time_presentaiton(studytime)
+            #save to the DB
+            new_total = StudytimeModel(userId=userId, date=date, year=date.year,
+                                        month=date.month, 
+                                        eachtime=studytime)
+            new_total.save_to_database_total()
+            replying_message = "{}時間、本日の学習時間から削除しました。".format(studytime_in_str)
+            
 
     #返信メッセージを送信する
     line_bot_api.reply_message(event.reply_token,
