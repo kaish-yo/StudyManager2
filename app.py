@@ -136,7 +136,7 @@ def handle_message(event):
         totaltime_in_str = time_presentaiton(totaltime)
         replying_message = "よかろう。汝のすべてを教えてやる。\nおぬしの総勉強時間は{}だ！".format(totaltime_in_str)
     
-    elif "時間追加" in respose:
+    elif "時間追加" in response:
         studytime = response.split('時')
         studytime = int(studytime[0])
         if len(studytime) > 2:
