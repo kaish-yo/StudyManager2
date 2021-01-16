@@ -137,11 +137,11 @@ def handle_message(event):
         replying_message = "よかろう。汝のすべてを教えてやる。\nおぬしの総勉強時間は{}だ！".format(totaltime_in_str)
     
     elif "時間追加" in response:
-        studytime = response.split('時')
-        studytime = int(studytime[0])
+        studytime = response.split('時')[0]
         if len(studytime) > 2:
             pass
         else:
+            studytime = int(studytime)
             studytime = studytime * 3600 #秒単位にする
             studytime_in_str = time_presentaiton(studytime)
 
@@ -153,13 +153,12 @@ def handle_message(event):
             
             replying_message = "{}時間、本日の学習時間に追加しました".format(studytime_in_str)
     elif "時間削除" in response:
-        studytime = response.split('時')[0]
-        studytime = int(studytime[0]) * -1
-        
+        studytime = response.split('時')[0]        
         if len(studytime) > 2:
             pass
         else:
-            studytime = studytime * 3600
+            studytime = int(studytime[0]) * -1
+            studytime = studytime * 3600 #秒数単位にする
             studytime_in_str = time_presentaiton(studytime)
             #save to the DB
             new_total = StudytimeModel(userId=userId, date=date, year=date.year,
