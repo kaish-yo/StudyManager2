@@ -157,7 +157,7 @@ def handle_message(event):
         if len(studytime) > 2:
             pass
         else:
-            studytime = int(studytime[0]) * -1
+            studytime = int(studytime) * -1
             studytime = studytime * 3600 #秒数単位にする
             studytime_in_str = time_presentaiton(studytime)
             #save to the DB
